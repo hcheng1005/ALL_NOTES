@@ -1,0 +1,6 @@
+[submodule "Radar/CernterFusion/CenterFusion_python"]
+	path = Radar/CernterFusion/CenterFusion_python
+	url = https://github.com/hcheng1005/CenterFusion.git
+[submodule "Radar/CernterFusion/CenterFusionWithROS"]
+	path = Radar/CernterFusion/CenterFusionWithROS
+	url = https://github.com/hcheng1005/CenterFusionWithROS.git
