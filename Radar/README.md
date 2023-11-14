@@ -20,3 +20,8 @@
 
 ### [Awesome-Radar-Camera-Fusion](https://github.com/hcheng1005/Awesome-Radar-Camera-Fusion)
 > 包括一些数据集和算法，主要以雷视融合为主。
+
+
+## 其他
+### [Stone-Soup](https://github.com/hcheng1005/Stone-Soup)
+> 一个教学，包含线性、非线性滤波器；PDA JPDA算法；GMPHD算法；聚类算法
