@@ -1,4 +1,8 @@
 
+## TODO
+- [ ] CenterFusion模型的部署代码解读
+- [ ] CUDA部署的课程学习
+
 ## 高星仓库
 
 ### [DeepLearning-500-questions](https://github.com/scutan90/DeepLearning-500-questions)

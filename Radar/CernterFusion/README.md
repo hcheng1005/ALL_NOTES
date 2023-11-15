@@ -5,16 +5,11 @@ Paper: [CenterFusion: Center-based Radar and Camera Fusion for 3D Object Detecti
 
 ---
 
-- [CenterFusion](#centerfusion)
-- [TODO](#todo)
-- [模型结构](#模型结构)
-  - [概述](#概述)
-- [模型解读](#模型解读)
-  - [Camera部分](#camera部分)
-  - [Radar部分](#radar部分)
-    - [预处理](#预处理)
-    - [**截锥关联**](#截锥关联)
-- [参考链接](#参考链接)
+- [概述](#概述)
+- [Camera部分](#camera部分)
+- [Radar部分](#radar部分)
+  - [预处理](#预处理)
+  - [**截锥关联**](#截锥关联)
 
 ---
 # TODO
