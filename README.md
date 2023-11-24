@@ -1,7 +1,14 @@
 
+## DONE LIST
+- [x] 20231124: CenterFusion模型的部署代码解读 [here](./Radar/CernterFusion/README.md)
+
+
+
 ## TODO
-- [ ] CenterFusion模型的部署代码解读
 - [ ] CUDA部署的课程学习
+- [ ] FURT3D
+- [ ] DETR
+  
 
 ## 高星仓库
 
