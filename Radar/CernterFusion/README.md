@@ -3,6 +3,10 @@
 
 Paper: [CenterFusion: Center-based Radar and Camera Fusion for 3D Object Detection](https://arxiv.org/abs/2011.04841)
 
+Code: [CenterFusion](https://github.com/hcheng1005/CenterFusion.git)
+
+Code: [CenterFusionWithROS](https://github.com/hcheng1005/CenterFusionWithROS)
+
 ---
 
 - [概述](#概述)
@@ -21,7 +25,7 @@ Paper: [CenterFusion: Center-based Radar and Camera Fusion for 3D Object Detecti
 ---
 # TODO
 
-- [ ] 截锥关联的代码解读与注释
+- [x] 截锥关联的代码解读与注释
 - [ ] C++部署工程实践
 
 ---
@@ -36,7 +40,7 @@ Paper: [CenterFusion: Center-based Radar and Camera Fusion for 3D Object Detecti
 
 1. 首先使用**CenterNet算法**进利用摄像头数据预测目标的中心点，并回归得到**目标的3D坐标、深度、旋转等信息**
 
-2. 然后作者将雷达检测到的目标数据和上面检测到的目标中心点进行关联，使用了**视锥的方法**
+2. 然后作者将雷达检测到的目标数据和上面检测到的目标中心点进行关联，使用了**截锥的方法**
 
 3. 将**关联后的目标的特征和雷达数据检测到的深度和速度信息组成的特征图并联**，在进行3D目标深度、旋转、速度和属性的回归
 
