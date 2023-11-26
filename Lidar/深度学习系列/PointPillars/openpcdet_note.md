@@ -1,5 +1,13 @@
 # OpenpcDet--PointPillars
 
+- [参考链接](#参考链接)
+- [模型结构](#模型结构)
+  - [pillarVFE](#pillarvfe)
+  - [PointPillarScatter](#pointpillarscatter)
+  - [BaseBEVBackbon](#basebevbackbon)
+  - [DENSE\_HEAD](#dense_head)
+
+
 ## 参考链接
 [openpcdet之pointpillar代码阅读——第一篇：数据增强与数据处理](https://blog.csdn.net/QLeelq/article/details/118807574?csdn_share_tail=%7B%22type%22:%22blog%22,%22rType%22:%22article%22,%22rId%22:%22118807574%22,%22source%22:%22QLeelq%22%7D&ctrtid=9zMqH)
 
@@ -457,7 +465,7 @@ class BaseBEVBackbone(nn.Module):
 </details>
 
 
-## DENSE_HEAD
+### DENSE_HEAD
 
 一共有三个类别的先验框，**每个先验框都有 两个方向，分别是BEV视角下的0度和90度，每个类别的先验框只有一种尺度信息**；分别是车 [3.9, 1.6, 1.56]、人[0.8, 0.6, 1.73]、自行车[1.76, 0.6, 1.73]（单位：米）。其中Car的先验框如下所示：
 
@@ -486,6 +494,10 @@ class BaseBEVBackbone(nn.Module):
 > cls为预测的类别。
 
 这部分代码在：`pcdet/models/dense_heads/anchor_head_single.py`，具体的注释代码如下：
+
+<details>
+  <summary>view code</summary>
+
 
 ```python
 import numpy as np
@@ -593,3 +605,4 @@ class AnchorHeadSingle(AnchorHeadTemplate):
         return data_dict
 
 ```
+</details>
