@@ -25,4 +25,9 @@ Code：[PointPillars_MultiHead_40FPS](https://github.com/hcheng1005/PointPillars
 [openpcdet_note](./openpcdet_note.md)
 
 ## 模型部署笔记
+
 [部署笔记](./%E9%83%A8%E7%BD%B2%E7%AC%94%E8%AE%B0.md)
+
+[3D点云 (Lidar)检测入门篇-PointPillars PyTorch实现](https://zhuanlan.zhihu.com/p/521277176) 
+
+[【3D目标检测】PointPillars论文和代码解析](https://zhuanlan.zhihu.com/p/357626425)
