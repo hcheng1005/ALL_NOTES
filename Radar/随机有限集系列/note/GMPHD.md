@@ -30,7 +30,7 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 如下面这个例子，就是三个高斯分布混合的分布图：
 
 <div align=center>
-<img src="images/20240113102920.png" width="40%" >
+<img src="images/20240113102920.png" width="60%" >
 </div>
 
 
@@ -43,7 +43,7 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 ### 概率密度预测
 
 <div align=center>
-<img src="images/20240113103739.png" width="40%" >
+<img src="images/20240113103739.png" width="60%" >
 </div>
 
 式23描述的是k-1时刻的后验概率密度分布，也就是k时刻的先验概率密度分布。
@@ -58,7 +58,7 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 ### 概率密度更新
 
 <div align=center>
-<img src="images/20240113110136.png" width="40%" >
+<img src="images/20240113110136.png" width="60%" >
 </div>
 
 后验概率密度分为两部分：
@@ -73,13 +73,13 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 #### Lemma 1: 高斯分布的状态转移
 
 <div align=center>
-<img src="images/20240113110718.png" width="40%" >
+<img src="images/20240113110718.png" width="60%" >
 </div>
 
 #### Lemma 1: 两个多维高斯分布相乘
 
 <div align=center>
-<img src="images/20240113110753.png" width="40%" >
+<img src="images/20240113110753.png" width="60%" >
 </div>
 
 ## GMPHD算法步骤详解
@@ -89,14 +89,14 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 ### 滤波步骤
 
 <div align=center>
-<img src="images/20240113112320.png" width="40%" >
+<img src="images/20240113112320.png" width="60%" >
 </div>
 
 > 对于新生目标的状态预测分为两个部分：完全新生的目标和已有目标的衍生目标。
 ---
 
 <div align=center>
-<img src="images/20240113112331.png" width="40%" >
+<img src="images/20240113112331.png" width="60%" >
 </div>
 
 > 对k-1时刻目标的状态预测。值得注意的是，预测步骤中，除了标准的卡尔曼预测外，还有一个权重预测$w_{k|k-1}=p_{S,k}w^j_{k-1}$.
@@ -104,7 +104,7 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 ---
 
 <div align=center>
-<img src="images/20240113112351.png" width="40%" >
+<img src="images/20240113112351.png" width="60%" >
 </div>
 
 > 目标观测状态预测（更新）部分。
@@ -115,7 +115,7 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 ---
 
 <div align=center>
-<img src="images/20240113114328.png" width="40%" >
+<img src="images/20240113114328.png" width="60%" >
 </div>
 
 > 状态更新步骤。关注其中的权重更新部分。
@@ -126,13 +126,13 @@ $$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
 什么是$k_k(z)$:
 
 <div align=center>
-<img src="images/20240113120321.png" width="40%" >
+<img src="images/20240113120321.png" width="60%" >
 </div>
 
 ### 目标剪枝
 
 <div align=center>
-<img src="images/20240113115527.png" width="40%" >
+<img src="images/20240113115527.png" width="60%" >
 </div>
 
 > NOTE: 关注其中的状态、状态协方差合并步骤，以及权重合并部分。
@@ -147,17 +147,17 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 ## THE GAUSSIAN INVERSE WISHART PHD FILTER
 
 <div align=center>
-<img src="images/20240114115712.png" width="40%" >
+<img src="images/20240114115712.png" width="60%" >
 </div>
 
 <div align=center>
-<img src="images/20240114115734.png" width="40%" >
+<img src="images/20240114115734.png" width="60%" >
 </div>
 
 ### 扩展目标状态定义
 
 <div align=center>
-<img src="images/20240113152913.png" width="40%" >
+<img src="images/20240113152913.png" width="60%" >
 </div>
 
 状态定义分成两部分：运动学建模和扩展状态建模。
@@ -167,7 +167,7 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 ### 概率密度定义
 
 <div align=center>
-<img src="images/20240113153316.png" width="40%" >
+<img src="images/20240113153316.png" width="60%" >
 </div>
 
 > 对比GMPHD，可以看出EOTPHD的定义上多了扩展模型，也就是红框中的**Inverse Wishart Distribution**。
@@ -180,19 +180,19 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 **状态预测：**
 
 <div align=center>
-<img src="images/20240113155324.png" width="40%" >
+<img src="images/20240113155324.png" width="60%" >
 </div>
 
 运动学部分和GMPHD一致，都是基于卡尔曼体系的滤波过程。这里重点分析下扩展状态的预测与更新。
 
 <div align=center>
-<img src="images/20240113155524.png" width="40%" >
+<img src="images/20240113155524.png" width="60%" >
 </div>
 
 **状态更新：**
 
 <div align=center>
-<img src="images/20240113160751.png" width="40%" >
+<img src="images/20240113160751.png" width="60%" >
 </div>
 
 更新分成两个部分（假设）：无量测和有量测状态。
@@ -200,28 +200,28 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 > 权重$w^{(j)}_{k|k}$更新中有一个参数$\gamma$，指的是abbreviate the expected number of measurements for the th GIW component。
 
 <div align=center>
-<img src="images/20240113160906.png" width="40%" >
+<img src="images/20240113160906.png" width="60%" >
 </div>
 
 目标状态的均值、协方差以及扩展部分的状态如下：
 <div align=center>
-<img src="images/20240113161958.png" width="40%" >
+<img src="images/20240113161958.png" width="60%" >
 </div>
 
 
 其中：
 <div align=center>
-<img src="images/20240113162048.png" width="40%" >
+<img src="images/20240113162048.png" width="60%" >
 </div>
 
 <div align=center>
-<img src="images/20240113162101.png" width="40%" >
+<img src="images/20240113162101.png" width="60%" >
 </div>
 
 
 对于式30中涉及的**似然函数**定义如下：
 <div align=center>
-<img src="images/20240113162208.png" width="40%" >
+<img src="images/20240113162208.png" width="60%" >
 </div>
 
 
@@ -230,7 +230,7 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 ### 状态定义
 
 <div align=center>
-<img src="images/20240114122151.png" width="40%" >
+<img src="images/20240114122151.png" width="60%" >
 </div>
 
 
