@@ -11,10 +11,16 @@
   - [滤波步骤](#滤波步骤)
   - [目标剪枝](#目标剪枝)
 - [扩展目标跟踪](#扩展目标跟踪)
+- [THE GAUSSIAN INVERSE WISHART PHD FILTER](#the-gaussian-inverse-wishart-phd-filter)
   - [扩展目标状态定义](#扩展目标状态定义)
   - [概率密度定义](#概率密度定义)
   - [状态预测与更新](#状态预测与更新)
+- [GGIW](#ggiw)
+  - [状态定义](#状态定义)
+- [相关内容](#相关内容)
   - [量测分割](#量测分割)
+  - [分布](#分布)
+- [参考论文](#参考论文)
 
 
 ## 什么是混合高斯分布
@@ -138,6 +144,16 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 
 随着传感器分辨率的提高，基于GMPHD思想的**扩展目标跟踪**已成为新趋势。
 
+## THE GAUSSIAN INVERSE WISHART PHD FILTER
+
+<div align=center>
+<img src="images/20240114115712.png" width="40%" >
+</div>
+
+<div align=center>
+<img src="images/20240114115734.png" width="40%" >
+</div>
+
 ### 扩展目标状态定义
 
 <div align=center>
@@ -209,8 +225,46 @@ GMPHD的整体设计还是**基于点目标跟踪**，这一点在计算量测�
 </div>
 
 
+## GGIW
+
+### 状态定义
+
+<div align=center>
+<img src="images/20240114122151.png" width="40%" >
+</div>
+
+
+## 相关内容
+
 ### 量测分割
 
 上述流程中，提到$|W|$是指每一个簇包含的点云个数，并且有n个这样的簇。
 
 这就需要某种算法对k时刻的所有量测（点云）进行聚类、分割处理。
+
+[了解常用聚类算法](https://zhuanlan.zhihu.com/p/104355127)
+
+### 分布
+- [Gaussina Distribution](../../../数学基础/gaussian.md)
+  
+- [Wishart Distribution and Inverse Wishart Distribution ](../../../数学基础/威沙特和逆威沙特分布.md)
+  
+- [Poisson Distribution](../../../数学基础/Poisson.md)
+  
+- [Gammma Distribution](https://www.zhangzhenhu.com/glm/source/gamma%E6%A8%A1%E5%9E%8B/content.html#)
+  
+- [Chi Distribution](../../../数学基础/卡方分布.md)
+
+
+## 参考论文
+- [GMPHD](https://ieeexplore.ieee.org/document/1710358)
+  
+- [EOT_Random Matrices](https://ieeexplore.ieee.org/document/6266759?denied=)
+  
+- [GGIW](https://ieeexplore.ieee.org/document/7145439)
+  
+- [Gamma Gaussian inverse-Wishart Poisson multi-Bernoulli filter for extended target tracking](https://core.ac.uk/download/pdf/74356604.pdf)
+  
+- [Implementation of the Gamma Gaussian Inverse Wishart Trajectory Probability HypothesisDensity Filter](https://research.chalmers.se/publication/523776/file/523776_Fulltext.pdf)
+  
+- [Implementation of the GIW-PHD flter](https://www.diva-portal.org/smash/get/diva2:633474/FULLTEXT01.pdf)

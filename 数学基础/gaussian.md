@@ -1,15 +1,16 @@
-<!--
- * @Author: charles hcheng1005@gmail.com
- * @Date: 2023-03-15 21:31:04
- * @LastEditors: Charles HAO 40482227+hcheng1005@users.noreply.github.com
- * @LastEditTime: 2023-03-26 21:48:29
- * @FilePath: \all-in-one\数学\gaussian.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
-# 高斯分布
-<img src="./imags/2023-03-15-20-39-23.png"  style="zoom: 100%;" />
 
-# 参考链接
+# 高斯分布
+
+- [参考链接](#参考链接)
+- [一维高斯分布](#一维高斯分布)
+- [多维高斯分布](#多维高斯分布)
+- [高斯分布的性质](#高斯分布的性质)
+- [高斯分布与置信区间](#高斯分布与置信区间)
+- [高斯混合模型](#高斯混合模型)
+
+---
+
+## 参考链接
 - [那些你知道的和你不知道的性质(I):从简单的一维高斯分布讲起](https://zhuanlan.zhihu.com/p/24874304)
 
 - [多元高斯分布完全解析](https://zhuanlan.zhihu.com/p/58987388)
@@ -22,7 +23,10 @@
 ---
 
 ## 一维高斯分布
-![](./images/2023-03-15-21-38-11.png)
+<div align=center>
+<img src="images/2023-03-15-21-38-11.png" width="60%" >
+</div>
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -53,11 +57,17 @@ plt.legend()
 plt.suptitle('Figure 1:Sampled and Ground Truth Distribution in 1D')
 ```
 
-![](./images/2023-03-15-21-38-33.png)
+<div align=center>
+<img src="images/2023-03-15-21-38-33.png" width="60%" >
+</div>
 
 
 ## 多维高斯分布
-![](./images/2023-03-15-21-36-32.png)
+
+<div align=center>
+<img src="images/2023-03-15-21-36-32.png" width="60%" >
+</div>
+
 
 ```python
 def multivariate_gaussian(mu, sigma, X):
@@ -117,12 +127,30 @@ plt.suptitle('Figure 2:Sampled and Ground Truth Distribution in 2D')
 plt.show()
 
 ```
-![](./images/2023-03-15-21-39-30.png)
+
+<div align=center>
+<img src="images/2023-03-15-21-39-30.png" width="60%" >
+</div>
+
 
 ## 高斯分布的性质
-![](./images/2023-03-15-21-46-01.png)
+
+<div align=center>
+<img src="images/2023-03-15-21-46-01.png" width="60%" >
+</div>
 
 ## 高斯分布与置信区间
-![](./images/2023-03-15-21-47-23.png)
+
+<div align=center>
+<img src="images/2023-03-15-21-47-23.png" width="60%" >
+</div>
 
 ## 高斯混合模型
+
+$$ P(X_i = x) = \sum_{k=1}^K \pi_kP(X_i=x|Z_i=k) $$
+
+如下面这个例子，就是三个高斯分布混合的分布图：
+
+<div align=center>
+<img src="images/20240113102920.png" width="60%" >
+</div>
