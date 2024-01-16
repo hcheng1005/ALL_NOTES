@@ -7,7 +7,9 @@ import random
 from sklearn import linear_model
 
 from scipy.optimize import leastsq
- 
+
+from Gradient_Descent import Gradient_Descent, Stochastic_Gradient_Descent, Momentum_Gradient_Descent, Nesterov_Momentum
+from Gradient_Descent import Adagrad, RMSprop, Adam
 
 #首先要生成一系列数据，三个参数分别是要生成数据的样本数，数据的偏差，以及数据的方差
 def getdata(samples, theta, bias, variance):  
@@ -27,6 +29,7 @@ def normalization_(data):
 def minmax_scaling(data):
     max_, min_ = np.max(data), np.min(data)
     return (data - min_) / (max_ - min_), (max_ - min_)
+
 
 # 梯度下降算法来解决最优化问题，求损失函数的最小值
 def gradient(X, Y, order, lr, m, iter_numbers):
@@ -50,37 +53,25 @@ def gradient(X, Y, order, lr, m, iter_numbers):
     last_loss = 1e5
     count = 1
     
-    beta = 0.1
-    gamma_ = 0.95 # 0.9, 0.95, 0.99
+    # Momentum_Gradient_Descent
     movement = 0.1
     
+    # # adam
+    # movement = 0.0
+    # vel = 0
+    
     sum_gt = 0.0
-    while 1:          
-       
-        # 计算梯度
-        Y_hat = np.dot(X_b, para)  # 正向传播
-        loss = (0.5 * (Y - Y_hat) ** 2).mean() # 计算loss
+    rt = 0.0
+    while 1:                  
+        # loss, para = Gradient_Descent(X_b, Y, para, lr)
+        # loss, para, lr = Stochastic_Gradient_Descent(X_b, Y, para, lr)
+        loss, para, movement = Momentum_Gradient_Descent(X_b, Y, para, lr, movement, alpha=0.99)
+        # loss, para, movement = Nesterov_Momentum(X_b, Y, para, lr, movement, alpha=0.99, beta=0.1)
+        # loss, para, rt = Adagrad(X_b, Y, para, lr, rt)
+        # loss, para, rt = RMSprop(X_b, Y, para, lr, rt)
+        # loss, para, movement, vel = adam(X_b, Y, para, lr, movement, vel, beta1=0.9, beta2=0.5, epsilon=1e-8)
+        
         print("iteration:%d / Cost:%f"%(count, loss)) 
-        gradient = X_b.T.dot(Y_hat - Y) / m  
-        
-        # # 梯度下降法
-        # para = para - lr * gradient # 梯度下降
-        
-        # # 动量法(Momentum) 
-        # # 20240115：对比下来效果较优
-        # movement = gamma_ * movement + lr * gradient
-        # para = para - movement
-        
-        # sum_gt = sum_gt + np.sum(gradient**2)
-        # para = para - lr * gradient / np.sqrt(sum_gt)
-        
-        # # 牛顿动量（Nesterov）算法 TBD NOT CORRECT
-        # Y_hat = np.dot(X_b, para - beta*movement) 
-        # loss = ((Y - Y_hat) ** 2).mean() # 计算loss
-        # print("iteration:%d / Cost:%f"%(count, loss))  
-        # gradient = -2 * X_b.T.dot(Y - Y_hat) / m  
-        # movement = gamma_*movement + lr * gradient
-        # para = para - movement
         
         # 结束条件
         if abs(last_loss - loss) < 1e-8:
@@ -107,7 +98,7 @@ def error (p,x,y):
     return Fun(p,x)-y 
 
 if __name__=="__main__":
-    num_, theta, bias, var_ = 50, 0.15, 10, 2
+    num_, theta, bias, var_ = 100, 0.15, 10, 2
     X, Y = getdata(num_, theta ,bias, var_)
 
     # Plot data
@@ -115,7 +106,7 @@ if __name__=="__main__":
     ax.scatter(X, Y, c='r',marker='1') 
     
     # 梯度下降法
-    lr_, iter_num_ = 0.0001, 200e4
+    lr_, iter_num_ = 0.00001, 200e4
     para = gradient(X, Y, 3, lr_, num_, iter_num_)
     print(para)
     # 打印GD得到的参数对应的函数曲线
@@ -140,4 +131,4 @@ if __name__=="__main__":
     w_ = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(Y)
     print(w_)
     
-    plt.show()
+    # plt.show()
