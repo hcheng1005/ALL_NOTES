@@ -16,4 +16,8 @@
 
 > 从数学基础到机器学习到神经网络的一步步介绍和问答
 
+### [Stone Soup Multi Target Tracke](https://stonesoup.readthedocs.io/en/v1.1/index.html)
+
+> 包含线性、非线性滤波器；PDA JPDA算法；GMPHD算法；聚类算法
+
 ## 飞书文档
