@@ -4,6 +4,20 @@ from numpy.linalg import inv as inv_
 from numpy.linalg import det as det_
 from numpy.linalg import cholesky as chol
 
+# 卡方分布表
+# P  0.95	0.90	0.80	0.70	0.50	0.30	0.20	0.10	0.05	0.01	0.001
+# ---------------------------------------------------------------------------------------
+# 1  0.004	0.02	0.06	0.15	0.46	1.07	1.64	2.71	3.84	6.64	10.83
+# 2  0.10	0.21	0.45	0.71	1.39	2.41	3.22	4.60	5.99	9.21	13.82
+# 3  0.35	0.58	1.01	1.42	2.37	3.66	4.64	6.25	7.82	11.34	16.27
+# 4  0.71	1.06	1.65	2.20	3.36	4.88	5.99	7.78	9.49	13.28	18.47
+# 5  1.14	1.61	2.34	3.00	4.35	6.06	7.29	9.24	11.07	15.09	20.52
+# 6  1.63	2.20	3.07	3.83	5.35	7.23	8.56	10.64	12.59	16.81	22.46
+# 7  2.17	2.83	3.82	4.67	6.35	8.38	9.80	12.02	14.07	18.48	24.32
+# 8  2.73	3.49	4.59	5.53	7.34	9.52	11.03	13.36	15.51	20.09	26.12
+# 9  3.32	4.17	5.38	6.39	8.34	10.66	12.24	14.68	16.92	21.67	27.88
+# 10 3.94	4.86	6.18	7.27	9.34	11.78	13.44	15.99	18.31	23.21	29.59
+
 
 from math import pi
 
@@ -65,6 +79,8 @@ class GGIW_Filter():
         self.Q = np.eye(self.F.shape[0]) * 1.0
         self.R = np.eye(self.H.shape[0]) * 0.2
         
+        self.scale = 0.9
+        
     def proc(self, measSet):
         self.predict()
         self.update(measSet)
@@ -78,6 +94,7 @@ class GGIW_Filter():
     return {*}
     '''
     def predict(self):
+        print("__________ predict __________")
         for comp in self.ggiw_comps:
             comp.X = self.F @ comp.X
             comp.P = self.F @ comp.P @ self.F.T + self.Q
@@ -90,6 +107,8 @@ class GGIW_Filter():
             comp.alpha /= comp.scale
             comp.beta /= comp.scale
             
+            # print("X: {} W: {}".format(comp.X[:2], comp.W))
+            
     '''
     name: 
     description: Briefly describe the function of your function
@@ -101,6 +120,9 @@ class GGIW_Filter():
         '''
         Ref: Gamma Gaussian inverse-Wishart Poisson multi-Bernoulli filter for extended target tracking
         (https://publications.lib.chalmers.se/records/fulltext/245112/local_245112.pdf)
+        
+        Ref: Implementation of the Gamma Gaussian Inverse Wishart Trajectory Probability Hypothesis Density Filter
+        https://research.chalmers.se/publication/523776/file/523776_Fulltext.pdf
         '''
         
         newGMPHD_Comp = []
@@ -117,35 +139,33 @@ class GGIW_Filter():
         # 这里一共会产生m*n个假设，其中m是量测个数，n是当前航迹个数
         newGMPHD_Comp2 = []
         for meas in measP:
+            # print("cur z: {}".format(meas.z))
             newGMPHD_Comp3 = []
             for comp in newGMPHD_Comp:
                 X, P, W, v, V, alpha, beta = comp.X, comp.P, comp.W, comp.v, comp.V, comp.alpha, comp.beta
                 
-                Xkk = V / (v - 2*self.d - 2)
+                # print("x: {}".format(X))
+                
+                Xkk = V / (v - 2 * self.d - 2)
 
                 K = P @ self.H.T
-                S = self.H @ P @ self.H.T + Xkk / meas.size # TBD
+                S = self.H @ P @ self.H.T + (self.scale * Xkk + self.R) / meas.size # TBD
                 K = P @ self.H.T @ inv_(S)     # 计算增益
-                
-                X = X + K @ (meas.z - self.H @ X)              # 更新状态
-                # P = (np.eye(P.shape[0]) - K @ self.H) @ P   # 更新协方差
-                P = P - K @ S @ K.T
                 
                 X_chol = chol(Xkk)
                 S_chol = chol(S)
                 
                 res_ = (meas.z - self.H @ X).reshape([2,1])
+                # print(res_.T, (self.H @ X).T)
                 N = res_ @ res_.T
                 Nk = X_chol @ inv_(S_chol) @ N @ inv_(S_chol).T @ X_chol.T
                 
                 tmp_V = V + Nk + meas.Z
 
                 # likelihood
-                p1 = ((pi ** meas.size) * meas.size) ** (-1.0)
+                p1 = ((2.0*pi) ** (meas.size * self.d / 2)) * (2 ** (0.5 * meas.size)) / (meas.size ** (0.5 * self.d))
                 p2 = 1 # / ((self.clutter_density ** meas.size) * (((pi**meas.size) * meas.size * det_(S)) ** (self.d / 2)))
-                
-                # tmp_v1 = (v ** (-self.d-1)) / 2
-                # tmp_v2 = ((v + meas.size) ** (-self.d-1)) / 2
+            
                 tmp_v1 = v / 2
                 tmp_v2 = (v + meas.size) / 2
                 p3 = (det_(V) ** tmp_v1 ) / (det_(tmp_V) ** tmp_v2)
@@ -153,7 +173,8 @@ class GGIW_Filter():
                 # Ref: https://search.r-project.org/CRAN/refmans/CholWishart/html/lmvgamma.html
                 p4 = multigammaln(int(tmp_v2), self.d) / multigammaln(int(tmp_v1), self.d) 
                 
-                p5 = (det_(Xkk) ** 0.5) / (det_(S) ** 0.5)
+                # p5 = (det_(Xkk) ** (0.5 * meas.size)) / (((Xkk + self.R / meas.size) ** ((meas.size - 1)*0.5)) * (det_(S) ** 0.5))
+                p5 = (det_(Xkk) ** (0.5 * meas.size)) / (det_(S) ** 0.5)
                 p6 = (gamma(comp.alpha + meas.size) * (comp.beta ** comp.alpha)) / \
                         (gamma(comp.alpha) * ((comp.beta + 1) ** (comp.alpha + meas.size))) 
                 
@@ -161,6 +182,10 @@ class GGIW_Filter():
                 # print(W)
                 W = p1 * p2 * p3 * p4 * p5 * p6 * W
                 # print(W)
+                
+                X = X + K @ (meas.z - self.H @ X)              # 更新状态
+                # P = (np.eye(P.shape[0]) - K @ self.H) @ P   # 更新协方差
+                P = P - K @ S @ K.T
                 
                 # 
                 v = v + meas.size
@@ -178,7 +203,7 @@ class GGIW_Filter():
             sum_w = np.sum([comp.W for comp in newGMPHD_Comp3])
             for comp in newGMPHD_Comp3:
                 comp.W = comp.W / (sum_w + 0.0) # TBD 此处应该有个Kronecker delta，暂时先省略
-                print(comp.W)
+                # print("X: {} W: {}".format(comp.X[:2], comp.W))
 
             newGMPHD_Comp2.extend(newGMPHD_Comp3)
         
@@ -214,16 +239,16 @@ class GGIW_Filter():
     param {*} self
     return {*}
     '''
-    def prune(self, truncthresh=1e-6, mergethresh=0.01, maxcomponents=10):
+    def prune(self, truncthresh=1e-6, mergethresh=9.49, maxcomponents=10):
         # Truncation is easy
-        print("start components prune")
+        # print("start components prune")
         weightsums = [np.sum(comp.W for comp in self.ggiw_comps)]   # diagnostic
         sourcegmm = [comp for comp in self.ggiw_comps if comp.W > truncthresh]        
         weightsums.append(np.sum(comp.W for comp in sourcegmm))
         origlen  = len(self.ggiw_comps)
         trunclen = len(sourcegmm)
         
-        print("origlen: %d, trunclen: %d" % (origlen, trunclen))
+        # print("origlen: %d, trunclen: %d" % (origlen, trunclen))
         
         # Iterate to build the new GMM
         newgmm = []
@@ -234,6 +259,9 @@ class GGIW_Filter():
             
             # 计算该comp与其他所有comp的“距离”
             distances = [float(np.dot(np.dot((comp.X - weightiest.X).T, np.linalg.inv(comp.P)), (comp.X - weightiest.X))) for comp in sourcegmm]
+            
+            print(distances)
+            
             dosubsume = np.array([dist <= mergethresh for dist in distances])
             
             subsumed = [weightiest] # 当前comp作为新comp
@@ -271,8 +299,8 @@ class GGIW_Filter():
         # log
         weightsums.append(np.sum(comp.W for comp in newgmm))
         weightsums.append(np.sum(comp.W for comp in self.ggiw_comps))
-        print("prune(): %i -> %i -> %i -> %i" % (origlen, trunclen, len(newgmm), len(self.ggiw_comps)))
-        print("prune(): weightsums %g -> %g -> %g -> %g" % (weightsums[0], weightsums[1], weightsums[2], weightsums[3]))
+        # print("prune(): %i -> %i -> %i -> %i" % (origlen, trunclen, len(newgmm), len(self.ggiw_comps)))
+        # print("prune(): weightsums %g -> %g -> %g -> %g" % (weightsums[0], weightsums[1], weightsums[2], weightsums[3]))
         
         # pruning should not alter the total weightsum (which relates to total num items) - so we renormalise
         weightnorm = weightsums[0] / weightsums[3]
@@ -280,9 +308,9 @@ class GGIW_Filter():
         for comp in self.ggiw_comps:
             comp.W *= weightnorm
             
-        # print('final---------------')
-        # for comp in self.ggiw_comps:
-            # print(comp.W)
+        print("__________ Final __________")
+        for comp in self.ggiw_comps:
+            print("X: {} W: {}".format(comp.X[:2], comp.W))
             
     
     '''

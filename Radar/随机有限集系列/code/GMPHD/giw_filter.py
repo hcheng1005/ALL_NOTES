@@ -110,11 +110,7 @@ class GIW_Filter():
                 K = P @ self.H.T
                 S = self.H @ P @ self.H.T + V / meas.size # TBD
                 K = P @ self.H.T @ inv_(S)     # 计算增益
-                
-                X = X + K @ (meas.z - self.H @ X)              # 更新状态
-                # P = (np.eye(P.shape[0]) - K @ self.H) @ P   # 更新协方差
-                P = P - K @ S @ K.T
-                
+            
                 res_ = (meas.z - self.H @ X).reshape([2,1])
                 
                 N = res_ @ res_.T
@@ -133,6 +129,10 @@ class GIW_Filter():
                 # print("P1:{}, P2:{}, P3:{}".format(p1, p2, p3))
                 
                 W = p1 * p2 * p3 * p4 * W
+                
+                X = X + K @ (meas.z - self.H @ X)              # 更新状态
+                # P = (np.eye(P.shape[0]) - K @ self.H) @ P   # 更新协方差
+                P = P - K @ S @ K.T
                 
                 # SPD更新
                 v = v + meas.size
@@ -182,7 +182,7 @@ class GIW_Filter():
     param {*} self
     return {*}
     '''
-    def prune(self, truncthresh=1e-6, mergethresh=0.01, maxcomponents=10):
+    def prune(self, truncthresh=1e-6, mergethresh=9.49, maxcomponents=10):
         # Truncation is easy
         print("start components prune")
         weightsums = [np.sum(comp.W for comp in self.giw_comps)]   # diagnostic
