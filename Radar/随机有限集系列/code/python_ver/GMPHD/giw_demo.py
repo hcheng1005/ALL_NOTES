@@ -1,7 +1,10 @@
 import numpy as np 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from ggiw_filter import GGIW_Filter, cluster
+
+from ggiw_filter import cluster
+from ggiw_filter import GGIW_Filter as Filter
+# from giw_filter import Filter, cluster
 
 
 def poissonSample(lamb):
@@ -111,16 +114,15 @@ if __name__ == "__main__":
     meas_data = Hfun @ gt_data
 
     # 定义gmphd滤波器
-    my_giw = GGIW_Filter()
+    my_giw = Filter()
 
-
-    plt.rcParams["figure.figsize"] = (10.0, 10.0)
+    plt.rcParams["figure.figsize"] = (6.0, 6.0)
     fig, ax = plt.subplots()
     ax.set_xlabel("x")
     ax.set_ylabel("y")
 
     # 执行仿真迭代
-    sim_step = 5
+    sim_step = 100
     for i in range(sim_step):
         # 真值
         measP =[]
