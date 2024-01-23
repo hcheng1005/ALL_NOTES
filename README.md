@@ -1,5 +1,6 @@
 
 ## DONE LIST
+- [x] 20240116: GMPHD GIW GGIW仿真代码实现 [hehe](./Radar/随机有限集系列/code/python_ver/GMPHD/)
 - [x] 20231124: CenterFusion模型的部署代码解读 [here](./Radar/CernterFusion/README.md)
 
 
@@ -20,4 +21,5 @@
 
 > 包含线性、非线性滤波器；PDA JPDA算法；GMPHD算法；聚类算法
 
-## 飞书文档
+## QA摘要
+[READ](./myCut.md)
