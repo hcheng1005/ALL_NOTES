@@ -21,5 +21,8 @@
 
 > 包含线性、非线性滤波器；PDA JPDA算法；GMPHD算法；聚类算法
 
+### [epsilonjohn](http://epsilonjohn.club/)
+> IMU、激光SLAM相关blog
+
 ## QA摘要
 [READ](./myCut.md)
