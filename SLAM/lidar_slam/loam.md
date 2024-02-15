@@ -41,11 +41,4 @@
 
 [Scan Context](https://www.guyuehome.com/37852)
 
-[Ubuntu20.04下的编译与运行LeGO-LOAM【问题解决】](https://blog.csdn.net/qq_39607707/article/details/123608592?spm=1001.2014.3001.5501)
-
-## DLO
-
-[direct_lidar_inertial_odometry-noted](https://github.com/lovelyyoshino/direct_lidar_inertial_odometry-noted?tab=readme-ov-file)
-
-[direct_lidar_odometry](https://github.com/vectr-ucla/direct_lidar_odometry)
 
