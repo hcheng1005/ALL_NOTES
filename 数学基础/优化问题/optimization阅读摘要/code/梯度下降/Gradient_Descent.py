@@ -41,21 +41,10 @@ def Stochastic_Gradient_Descent(X, Y, w, lr):
 '''
 name: Momentum
 description: 
-Momentum使用动量的方式加速了学习过程，尤其是遇到：损失函数高曲率情况，梯度很小但是相对稳定，噪声梯度等情况
+Momentum使用动量的方式加速了学习过程，尤其是遇到损失函数高曲率情况，梯度很小但是相对稳定，噪声梯度等情况
 '''
 def Momentum_Gradient_Descent(X, Y, w, lr, movement=0.1, alpha=0.9):
-    Y_hat = np.dot(X, w)  # 正向传播
-    
-    # 随机选取20%数据作为mini-batch进行梯度下降
-    # smp_num = len(Y)
-    # mini_batch_num = int(np.round(smp_num * 0.9))
-    # idx_ = np.random.randint(1, smp_num, mini_batch_num)
-    # newY = Y[idx_]
-    # newY_hat = Y_hat[idx_]
-    # newX = X[idx_]
-    # loss = (0.5 * (newY - newY_hat) ** 2).mean() # 计算loss
-    # gradient = newX.T.dot(newY_hat - newY) / mini_batch_num
-    
+    Y_hat = np.dot(X, w)  # 正向传播    
     loss = (0.5 * (Y - Y_hat) ** 2).mean() # 计算loss
     gradient = X.T.dot(Y_hat - Y) / len(Y)
     movement = alpha * movement - lr * gradient
